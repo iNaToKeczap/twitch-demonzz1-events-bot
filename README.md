@@ -25,6 +25,7 @@
  sudo sh get-docker.sh
 ```
 lub [Docker Desktop](https://docs.docker.com/desktop/install/windows-install/) na Windows
+
 4. Zmieniamy nazwę pliku `configexample.json` na `config.json`
 5. Edytujemy plik `config.json`
    - w `username` ustawiamy swój nick
