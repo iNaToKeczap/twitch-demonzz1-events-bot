@@ -48,37 +48,46 @@ client.on("PRIVMSG", async (msg) => {
         if (msg.messageText.includes("-Everyone can Join!- In order to join type !heist (amount).")){
             client.say(msg.channelName, `!heist ${config.heist}`);
         }
+        if (msg.messageText.includes(config.username) && msg.messageText.includes("Rybki gotowe")){
+            client.say(msg.channelName, `$$rybki`);
+        }
         console.log(chalk.cyanBright(`#${msg.channelName} `) + chalk.yellowBright(`${msg.senderUsername} `) + chalk.greenBright(`-> ${msg.messageText}`));
     };
 //commands
-    if (msg.messageText.startsWith(config.prefix)){
+    if (msg.messageText.startsWith(config.prefix) && msg.senderUsername === config.username){
         const args = msg.messageText.slice(config.prefix.length).trim().split(/\s+/);
         const command = args.shift().toLowerCase();
         switch(command){
             case `${config.command}`:
-                client.say(msg.channelName, `@${msg.senderUsername}, Bot działa prawidłowo ;)`);
-                console.log(chalk.cyanBright(`#${msg.channelName} `) + chalk.yellowBright(`${msg.senderUsername} -> `) + chalk.greenBright(`${msg.messageText}`));
+                setTimeout(() => {
+                    client.say(msg.channelName, `@${msg.senderUsername}, Bot działa prawidłowo ;)`);
+                }, 2000);
                 break;
             case "ustaw":
-                if (msg.senderUsername !== client.configuration.username) { return };
                 let heist = parseInt(args[0]);
                 if (isNaN(heist)){
-                    client.say(msg.channelName, `@${msg.senderUsername}, Podaj poprawną wartość! ${config.prefix}ustaw (liczba do max 10k)`);
+                    setTimeout(() => {
+                        client.say(msg.channelName, `@${msg.senderUsername}, Podaj poprawną wartość! ${config.prefix}ustaw (liczba do max 10k)`);
+                    }, 2000);
                     return;
                 } else if(heist > 10000 || heist <= 0){
-                    client.say(msg.channelName, `@${msg.senderUsername}, Podaj liczbę od 1 do max 10k!`);
+                    setTimeout(() => {
+                        client.say(msg.channelName, `@${msg.senderUsername}, Podaj liczbę od 1 do max 10k!`);
+                    }, 2000);
                     return;
                 };
                 file.set("heist", heist);
-                client.say(msg.channelName, `@${msg.senderUsername}, Pomyślnie zmieniono ilość heista na ${heist}!`);
-                console.log(chalk.cyanBright(`#${msg.channelName} `) + chalk.yellowBright(`${msg.senderUsername} -> `) + chalk.greenBright(`${msg.messageText}`));
+                setTimeout(() => {
+                    client.say(msg.channelName, `@${msg.senderUsername}, Pomyślnie zmieniono ilość heista na ${heist}!`);    
+                }, 2000);
                 break;
             case "jakiheist":
-                if (msg.senderUsername !== client.configuration.username) { return };
-                client.say(msg.channelName, `@${msg.senderUsername}, Masz aktualnie ustawione ${config.heist} heista ;)`);
-                console.log(chalk.cyanBright(`#${msg.channelName} `) + chalk.yellowBright(`${msg.senderUsername} -> `) + chalk.greenBright(`${msg.messageText}`));
+                setTimeout(() => {
+                    client.say(msg.channelName, `@${msg.senderUsername}, Masz aktualnie ustawione ${config.heist} heista ;)`);    
+                }, 2000);
                 break;
         }
+        console.log(chalk.cyanBright(`#${msg.channelName} `) + chalk.yellowBright(`${msg.senderUsername} -> `) + chalk.greenBright(`${msg.messageText}`));
     }
 });
 
