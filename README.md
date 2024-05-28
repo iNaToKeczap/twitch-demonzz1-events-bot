@@ -19,7 +19,7 @@
 
 1. Pobieramy projekt [github](https://github.com/szkajpur/twitch-demonzz1-events-bot/archive/master.zip) lub poprzez `git clone https://github.com/szkajpur/twitch-demonzz1-events-bot`
 2. Przechodzimy do folderu twitch-demonzz1-events-bot za pomocą `cd twitch-demonzz1-events-bot`
-3. Instalujemy Docker na Linux:
+3. Instalujemy [Docker Engine](https://docs.docker.com/engine/install/ubuntu/) na Linux:
 ```
  curl -fsSL https://get.docker.com -o get-docker.sh
  sudo sh get-docker.sh
