@@ -25,18 +25,18 @@
  sudo sh get-docker.sh
 ```
 lub [Docker Desktop](https://docs.docker.com/desktop/install/windows-install/) na Windows
-5. Zmieniamy nazwę pliku `configexample.json` na `config.json`
-6. Edytujemy plik `config.json`
+4. Zmieniamy nazwę pliku `configexample.json` na `config.json`
+5. Edytujemy plik `config.json`
    - w `username` ustawiamy swój nick
    - w `oauth` bierzemy ACCESS TOKEN ze stronki [twitchtokengenerator](https://twitchtokengenerator.com/) (bot token)
    - w `command` polecam zmienić na coś innego
    - heista można zmieniać w czasie rzeczywistym
-7. Uruchamiamy bota komendą
+6. Uruchamiamy bota komendą
 ```
 docker build . -t demonzzbot
 docker run -d --restart on-failure --name demonzzbot demonzzbot
 ```
-8. Sprawdzamy komendą `docker logs demonzzbot`, czy pojawiła się wiadomość `Pomyślnie połączono do czatu...`, bot działa prawidłowo ;)
+7. Sprawdzamy komendą `docker logs demonzzbot`, czy pojawiła się wiadomość `Pomyślnie połączono do czatu...`, bot działa prawidłowo ;)
 
 ## Komendy
 
