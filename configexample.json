@@ -9,5 +9,6 @@
     "command": "testbota",
     "connect": "aha polaczono",
     "bossBotName": "demonzzbot",
+    "aliasBotName": "Supibot",
     "BANDonperma": true
 }

@@ -36,8 +36,8 @@ client.on("close", async (error) => {
     }
 });
 
-//demonzzbot events
 client.on("PRIVMSG", async (msg) => {
+//demonzzbot events
     if (msg.senderUsername === config.bossBotName){
         if (msg.messageText.includes("Type !boss to join!")){
             client.say(msg.channelName, "!boss");
@@ -48,6 +48,10 @@ client.on("PRIVMSG", async (msg) => {
         if (msg.messageText.includes("-Everyone can Join!- In order to join type !heist (amount).")){
             client.say(msg.channelName, `!heist ${config.heist}`);
         }
+        console.log(chalk.cyanBright(`#${msg.channelName} `) + chalk.yellowBright(`${msg.senderUsername} `) + chalk.greenBright(`-> ${msg.messageText}`));
+    };
+// supibot events
+    if (msg.senderUsername === config.aliasBotName){
         if (msg.messageText.includes(config.username) && msg.messageText.includes("Rybki gotowe")){
             client.say(msg.channelName, `$$rybki`);
         }
