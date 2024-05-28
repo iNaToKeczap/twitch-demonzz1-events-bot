@@ -37,8 +37,8 @@ lub [Docker Desktop](https://docs.docker.com/desktop/install/windows-install/) n
    - heista można zmieniać w czasie rzeczywistym
 6. Uruchamiamy bota komendą
 ```
-docker build . -t demonzzbot
-docker run -d --restart on-failure --name demonzzbot demonzzbot
+docker build . -t iNaToKeczap/demonzzbot
+docker run -d --restart on-failure --name demonzzbot iNaToKeczap/demonzzbot
 ```
 7. Sprawdzamy komendą `docker logs demonzzbot`, czy pojawiła się wiadomość `Pomyślnie połączono do czatu...`, bot działa prawidłowo ;)
 
