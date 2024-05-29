@@ -7,6 +7,11 @@ const __dirname = new URL('.', import.meta.url).pathname;
 
 var config = new reload(__dirname + '/config.json');
 
+const channels = config.channels
+if(config.enabledFishing && !config.channels.includes(config.fishingBotChannel)) {
+    channels.push(config.fishingBotChannel)
+}
+
 let file = editJsonFile(__dirname + '/config.json', {
     autosave: true
 });
@@ -26,8 +31,14 @@ client.use(new AlternateMessageModifier(client));
 client.use(new SlowModeRateLimiter(client, 10));
 
 client.on("ready", async () => {
-	console.log(chalk.greenBright("Pomyślnie połączono do czatu:") + chalk.blueBright(` ${config.channels[0]}`));
-    client.say(config.channels[0], `${config.connect}`);
+	console.log(chalk.greenBright("Pomyślnie połączono do czatu:") + chalk.blueBright(` ${channels.join(', ')}`));
+    client.say(channels[0], `${config.connect}`);
+//run fishing command on join to channel
+    if (config.enabledFishing) {
+        setTimeout(() => {
+            client.say(config.fishingBotChannel, `$alias try wojcieszekb rybki`);
+        }, 1500);
+    }
 });
 
 client.on("close", async (error) => {
@@ -50,10 +61,10 @@ client.on("PRIVMSG", async (msg) => {
         }
         console.log(chalk.cyanBright(`#${msg.channelName} `) + chalk.yellowBright(`${msg.senderUsername} `) + chalk.greenBright(`-> ${msg.messageText}`));
     };
-// supibot events
-    if (msg.senderUsername === config.aliasBotName){
-        if (msg.messageText.includes(config.username) && msg.messageText.includes("Rybki gotowe")){
-            client.say(msg.channelName, `$$rybki`);
+//supibot events
+    if (msg.senderUsername === config.fishingBotName && msg.channelName === config.fishingBotChannel){
+        if (msg.messageText.includes(config.username) && msg.messageText.includes("Rybki gotowe") && config.enabledFishing){
+            client.say(msg.channelName, `$alias try wojcieszekb rybki`);
         }
         console.log(chalk.cyanBright(`#${msg.channelName} `) + chalk.yellowBright(`${msg.senderUsername} `) + chalk.greenBright(`-> ${msg.messageText}`));
     };
@@ -65,30 +76,30 @@ client.on("PRIVMSG", async (msg) => {
             case `${config.command}`:
                 setTimeout(() => {
                     client.say(msg.channelName, `@${msg.senderUsername}, Bot działa prawidłowo ;)`);
-                }, 2000);
+                }, 1500);
                 break;
             case "ustaw":
                 let heist = parseInt(args[0]);
                 if (isNaN(heist)){
                     setTimeout(() => {
                         client.say(msg.channelName, `@${msg.senderUsername}, Podaj poprawną wartość! ${config.prefix}ustaw (liczba do max 10k)`);
-                    }, 2000);
+                    }, 1500);
                     return;
                 } else if(heist > 10000 || heist <= 0){
                     setTimeout(() => {
                         client.say(msg.channelName, `@${msg.senderUsername}, Podaj liczbę od 1 do max 10k!`);
-                    }, 2000);
+                    }, 1500);
                     return;
                 };
                 file.set("heist", heist);
                 setTimeout(() => {
                     client.say(msg.channelName, `@${msg.senderUsername}, Pomyślnie zmieniono ilość heista na ${heist}!`);    
-                }, 2000);
+                }, 1500);
                 break;
             case "jakiheist":
                 setTimeout(() => {
                     client.say(msg.channelName, `@${msg.senderUsername}, Masz aktualnie ustawione ${config.heist} heista ;)`);    
-                }, 2000);
+                }, 1500);
                 break;
         }
         console.log(chalk.cyanBright(`#${msg.channelName} `) + chalk.yellowBright(`${msg.senderUsername} -> `) + chalk.greenBright(`${msg.messageText}`));
@@ -96,10 +107,14 @@ client.on("PRIVMSG", async (msg) => {
 });
 
 client.on("CLEARCHAT", async (msg) => {
-    if (msg.isPermaban() && config.BANDonperma === true){
-        client.say(msg.channelName, "BAND");
+    if (config.onBanned === true){
+        if (msg.isPermaban()){
+            client.say(msg.channelName, `PERMA BAND @${msg.targetUsername}`);
+        } else if (msg.isTimeout()) {
+            client.say(msg.channelName, `BAND @${msg.targetUsername} na ${msg.banDuration} sekund`);
+        }
     }
 });
 
 client.connect();
-client.joinAll(config.channels);
+client.joinAll(channels);

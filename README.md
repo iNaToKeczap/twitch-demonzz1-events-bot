@@ -11,8 +11,11 @@
 5. Edytujemy plik `config.json`
    - w `username` ustawiamy swój nick
    - w `oauth` bierzemy ACCESS TOKEN ze stronki [twitchtokengenerator](https://twitchtokengenerator.com/) (bot token)
-   - w `command` polecam zmienić na coś innego
+   - w `command` ustawiamy komendę odpowiedzialną ze test bota, polecam zmienić na coś innego
    - heista można zmieniać w czasie rzeczywistym
+   - w `enabledFishing` ustawiamy automatyczne wędkowanie, domyślnie wyłączone
+   - w `fishingBotChannel` podajemy kanał na którym bot będzie wędkował (używamy domyślnie mało obleganych kanałów)
+   - w `onBanned` ustawiamy powiadomienie o zbanowanym użytkowniku na kanale
 6. Uruchamiamy bota komendą `npm start`
 7. Jeśli pojawiła się wiadomość `Pomyślnie połączono do czatu...`, bot działa prawidłowo ;)
 
@@ -33,8 +36,11 @@ lub [Docker Desktop](https://docs.docker.com/desktop/install/windows-install/) n
 5. Edytujemy plik `config.json`
    - w `username` ustawiamy swój nick
    - w `oauth` bierzemy ACCESS TOKEN ze stronki [twitchtokengenerator](https://twitchtokengenerator.com/) (bot token)
-   - w `command` polecam zmienić na coś innego
+   - w `command` ustawiamy komendę odpowiedzialną ze test bota, polecam zmienić na coś innego
    - heista można zmieniać w czasie rzeczywistym
+   - w `enabledFishing` ustawiamy automatyczne wędkowanie, domyślnie wyłączone
+   - w `fishingBotChannel` podajemy kanał na którym bot będzie wędkował (używamy domyślnie mało obleganych kanałów)
+   - w `onBanned` ustawiamy powiadomienie o zbanowanym użytkowniku na kanale
 6. Uruchamiamy bota komendą
 ```
 docker build . -t iNaToKeczap/demonzzbot
