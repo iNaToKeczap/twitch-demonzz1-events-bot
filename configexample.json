@@ -7,7 +7,6 @@
     "heist": 123,
     "prefix": "!",
     "command": "testbota",
-    "connect": "aha polaczono",
     "bossBotName": "demonzzbot",
     "enabledFishing": false,
     "fishingBotName": "supibot",
