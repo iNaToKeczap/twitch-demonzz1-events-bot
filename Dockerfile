@@ -1,10 +1,9 @@
-FROM node:alpine
+FROM node:20-alpine
 
-RUN mkdir /app
 WORKDIR /app
 
-COPY package.json /app
+COPY package.json .
 RUN npm install
 
-COPY . /app
+COPY . .
 CMD ["/bin/sh", "-c", "set -e && npm start"]
