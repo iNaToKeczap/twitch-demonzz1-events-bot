@@ -62,4 +62,4 @@ docker run -d --restart on-failure --name demonzzbot iNaToKeczap/demonzzbot
 ## Autor
 
 - [@szkajpur](https://www.twitch.tv/szkajpur)
-- [@wojcieszekb]
+- [@wojcieszekb](https://www.twitch.tv/wojcieszekb)
