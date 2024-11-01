@@ -12,9 +12,13 @@ let file = editJsonFile(__dirname + '/config.json', {
 
 // merge channels to join
 const channels = config.channels
-if(config.enabledFishing && !config.channels.includes(config.fishingBotChannel)) {
-    channels.push(config.fishingBotChannel)
+if (config.fishing.enabled && !config.channels.includes(config.fishing.botChannel)) {
+    channels.push(config.fishing.botChannel)
 }
+if (config.potatoes.enabled && !config.channels.includes(config.potatoes.botChannel)) {
+    channels.push(config.potatoes.botChannel)
+}
+
 // create banned channels map
 const bannedChannelsMap = new Map();
 channels.forEach(channel => {
@@ -36,74 +40,80 @@ client.use(new AlternateMessageModifier(client));
 client.use(new SlowModeRateLimiter(client, 10));
 
 client.on("ready", async () => {
-	console.log(chalk.greenBright("Pomyślnie połączono do czatu:") + chalk.blueBright(` ${channels.join(', ')}`));
-//run fishing command on join to channel
-    if (config.enabledFishing) {
-        setTimeout(() => {
-            say(config.fishingBotChannel, `$alias try wojcieszekb rybki`);
-        }, 1500);
+    console.log(chalk.greenBright("Pomyślnie połączono do czatu:") + chalk.blueBright(` ${channels.join(', ')}`));
+    // run fishing command on join to channel
+    if (config.fishing.enabled) {
+        say(config.fishing.botChannel, `$alias try wojcieszekb rybki`);
+    }
+    // run potatoes command on join to channel
+    if (config.potatoes.enabled) {
+        say(config.potatoes.botChannel, `-potato remind potato steal`);
+        say(config.potatoes.botChannel, `-potato`);
+        say(config.potatoes.botChannel, `-steal`);
     }
 });
 
 client.on("close", async (error) => {
-    if (error !== null){
+    if (error !== null) {
         console.error(`Client closed due to error`, error);
     }
 });
 
 client.on("PRIVMSG", async (msg) => {
-//demonzzbot events
-    if (msg.senderUsername === config.bossBotName){
-        if (msg.messageText.includes("Type !boss to join!")){
+    // demonzzbot events
+    if (msg.senderUsername === config.bossBotName) {
+        if (msg.messageText.includes("Type !boss to join!")) {
             say(msg.channelName, "!boss");
         }
-        if (msg.messageText.includes("Type !ffa to join!")){
+        if (msg.messageText.includes("Type !ffa to join!")) {
             say(msg.channelName, "!ffa");
         }
-        if (msg.messageText.includes("-Everyone can Join!- In order to join type !heist (amount).")){
+        if (msg.messageText.includes("-Everyone can Join!- In order to join type !heist (amount).")) {
             say(msg.channelName, `!heist ${config.heist}`);
         }
         console.log(chalk.cyanBright(`#${msg.channelName} `) + chalk.yellowBright(`${msg.senderUsername} `) + chalk.greenBright(`-> ${msg.messageText}`));
     };
-//supibot events
-    if (msg.senderUsername === config.fishingBotName && msg.channelName === config.fishingBotChannel){
-        if (msg.messageText.includes(config.username) && msg.messageText.includes("Rybki gotowe") && config.enabledFishing){
+    // supibot events
+    if (msg.senderUsername === config.fishing.botName && msg.channelName === config.fishing.botChannel) {
+        if (msg.messageText.includes(config.username) && msg.messageText.includes("Rybki gotowe") && config.fishing.enabled) {
             say(msg.channelName, `$alias try wojcieszekb rybki`);
         }
         console.log(chalk.cyanBright(`#${msg.channelName} `) + chalk.yellowBright(`${msg.senderUsername} `) + chalk.greenBright(`-> ${msg.messageText}`));
     };
-//commands
-    if (msg.messageText.startsWith(config.prefix) && msg.senderUsername === config.username){
+    // potatobot events
+    if (msg.senderUsername === config.potatoes.botName && msg.channelName === config.potatoes.botChannel) {
+        if (msg.messageText.includes(config.username) && msg.messageText.includes("you have a ") && msg.messageText.includes("available!") && config.potatoes.enabled) {
+            if (msg.messageText.includes('potato')) {
+                say(msg.channelName, `-potato`);
+            }
+            if (msg.messageText.includes('steal')) {
+                say(msg.channelName, `-steal`);
+            }
+        }
+        console.log(chalk.cyanBright(`#${msg.channelName} `) + chalk.yellowBright(`${msg.senderUsername} `) + chalk.greenBright(`-> ${msg.messageText}`));
+    };
+    // commands
+    if (msg.messageText.startsWith(config.prefix) && msg.senderUsername === config.username) {
         const args = msg.messageText.slice(config.prefix.length).trim().split(/\s+/);
         const command = args.shift().toLowerCase();
-        switch(command){
+        switch (command) {
             case `${config.command}`:
-                setTimeout(() => {
-                    say(msg.channelName, `@${msg.senderUsername}, Bot działa prawidłowo ;)`);
-                }, 1500);
+                say(msg.channelName, `@${msg.senderUsername}, Bot działa prawidłowo ;)`);
                 break;
             case "ustaw":
                 let heist = parseInt(args[0]);
-                if (isNaN(heist)){
-                    setTimeout(() => {
-                        say(msg.channelName, `@${msg.senderUsername}, Podaj poprawną wartość! ${config.prefix}ustaw (liczba do max 10k)`);
-                    }, 1500);
+                if (isNaN(heist)) {
+                    say(msg.channelName, `@${msg.senderUsername}, Podaj poprawną wartość! ${config.prefix}ustaw (liczba do max 10k)`);
                     return;
-                } else if(heist > 10000 || heist <= 0){
-                    setTimeout(() => {
-                        say(msg.channelName, `@${msg.senderUsername}, Podaj liczbę od 1 do max 10k!`);
-                    }, 1500);
+                } else if (heist > 10000 || heist <= 0) {
+                    say(msg.channelName, `@${msg.senderUsername}, Podaj liczbę od 1 do max 10k!`);
                     return;
                 };
                 file.set("heist", heist);
-                setTimeout(() => {
-                    say(msg.channelName, `@${msg.senderUsername}, Pomyślnie zmieniono ilość heista na ${heist}!`);    
-                }, 1500);
+                say(msg.channelName, `@${msg.senderUsername}, Pomyślnie zmieniono ilość heista na ${heist}!`);
                 break;
             case "jakiheist":
-                setTimeout(() => {
-                    say(msg.channelName, `@${msg.senderUsername}, Masz aktualnie ustawione ${config.heist} heista ;)`);    
-                }, 1500);
+                say(msg.channelName, `@${msg.senderUsername}, Masz aktualnie ustawione ${config.heist} heista ;)`);
                 break;
         }
         console.log(chalk.cyanBright(`#${msg.channelName} `) + chalk.yellowBright(`${msg.senderUsername} -> `) + chalk.greenBright(`${msg.messageText}`));
@@ -112,7 +122,7 @@ client.on("PRIVMSG", async (msg) => {
 
 client.on("CLEARCHAT", async (msg) => {
     if (msg.targetUsername === config.username) {
-        if (msg.isPermaban()){
+        if (msg.isPermaban()) {
             client.part(msg.channelName);
             banOnChannel(msg.channelName);
             console.log(chalk.cyanBright(`#${msg.channelName} `) + chalk.yellowBright(`${config.username} -> `) + chalk.greenBright(`Masz bana na kanale ${msg.channelName}! Rozłączanie...`));
@@ -124,8 +134,8 @@ client.on("CLEARCHAT", async (msg) => {
                 console.log(chalk.cyanBright(`#${msg.channelName} `) + chalk.yellowBright(`${config.username} -> `) + chalk.greenBright(`Bot is resuming!`));
             }, msg.banDuration * 1000);
         }
-    } else if (config.onBanned === true){
-        if (msg.isPermaban()){
+    } else if (config.onBanned === true) {
+        if (msg.isPermaban()) {
             say(msg.channelName, `PERMA BAND @${msg.targetUsername}`);
         } else if (msg.isTimeout()) {
             say(msg.channelName, `BAND @${msg.targetUsername} na ${msg.banDuration} sekund`);
@@ -134,17 +144,17 @@ client.on("CLEARCHAT", async (msg) => {
 });
 
 client.on("ROOMSTATE", async (msg) => {
-    if(msg.emoteOnly) {
+    if (msg.emoteOnly) {
         console.log(chalk.cyanBright(`#${msg.channelName} `) + chalk.greenBright(`Emote only czat włączony!`));
-    } else if(msg.emoteOnly) {
+    } else if (!msg.emoteOnly) {
         console.log(chalk.cyanBright(`#${msg.channelName} `) + chalk.greenBright(`Emote only czat wyłączony!`));
     }
-    if(msg.subscribersOnly) {
+    if (msg.subscribersOnly) {
         console.log(chalk.cyanBright(`#${msg.channelName} `) + chalk.greenBright(`Sub only czat włączony!`));
-    } else if(!msg.subscribersOnly) {
+    } else if (!msg.subscribersOnly) {
         console.log(chalk.cyanBright(`#${msg.channelName} `) + chalk.greenBright(`Sub only czat wyłączony!`));
     }
- });
+});
 
 client.connect();
 client.joinAll(channels);
@@ -162,8 +172,12 @@ function unbanOnChannel(channel) {
 }
 
 function say(channel, message) {
-    if(!bannedOnChannel(channel)) {
-        client.say(channel, message);
+    // cannot write messages too quickly due to Twitch restrictions, adding some lag with timeout
+    const timeoutMiliSeconds = 1500
+    if (!bannedOnChannel(channel)) {
+        setTimeout(() => {
+            client.say(channel, message);
+        }, timeoutMiliSeconds);
     } else {
         console.log(`Masz wciąż bana na kanale ${channel}!`)
     }

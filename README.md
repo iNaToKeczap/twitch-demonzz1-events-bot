@@ -13,8 +13,10 @@
    - w `oauth` bierzemy ACCESS TOKEN ze stronki [twitchtokengenerator](https://twitchtokengenerator.com/) (bot token)
    - w `command` ustawiamy komendę odpowiedzialną ze test bota, polecam zmienić na coś innego
    - heista można zmieniać w czasie rzeczywistym
-   - w `enabledFishing` ustawiamy automatyczne wędkowanie, domyślnie wyłączone
-   - w `fishingBotChannel` podajemy kanał na którym bot będzie wędkował (używamy domyślnie mało obleganych kanałów)
+   - w `fishing.enabled` ustawiamy automatyczne wędkowanie, domyślnie wyłączone
+   - w `fishing.botChannel` podajemy kanał na którym bot będzie wędkował (używamy domyślnie mało obleganych kanałów)
+   - w `potatoes.enabled` ustawiamy bota od zbierania ziemniaków, domyślnie wyłączone
+   - w `fishing.botChannel` podajemy kanał na którym bot będzie zbierał ziemniaki (używamy domyślnie mało obleganych kanałów)
    - w `onBanned` ustawiamy powiadomienie o zbanowanym użytkowniku na kanale
 6. Uruchamiamy bota komendą `npm start`
 7. Jeśli pojawiła się wiadomość `Pomyślnie połączono do czatu...`, bot działa prawidłowo ;)
@@ -38,8 +40,10 @@ lub [Docker Desktop](https://docs.docker.com/desktop/install/windows-install/) n
    - w `oauth` bierzemy ACCESS TOKEN ze stronki [twitchtokengenerator](https://twitchtokengenerator.com/) (bot token)
    - w `command` ustawiamy komendę odpowiedzialną ze test bota, polecam zmienić na coś innego
    - heista można zmieniać w czasie rzeczywistym
-   - w `enabledFishing` ustawiamy automatyczne wędkowanie, domyślnie wyłączone
-   - w `fishingBotChannel` podajemy kanał na którym bot będzie wędkował (używamy domyślnie mało obleganych kanałów)
+   - w `fishing.enabled` ustawiamy automatyczne wędkowanie, domyślnie wyłączone
+   - w `fishing.botChannel` podajemy kanał na którym bot będzie wędkował (używamy domyślnie mało obleganych kanałów)
+   - w `potatoes.enabled` ustawiamy bota od zbierania ziemniaków, domyślnie wyłączone
+   - w `fishing.botChannel` podajemy kanał na którym bot będzie zbierał ziemniaki (używamy domyślnie mało obleganych kanałów)
    - w `onBanned` ustawiamy powiadomienie o zbanowanym użytkowniku na kanale
 6. Uruchamiamy bota komendą
 ```
@@ -58,3 +62,4 @@ docker run -d --restart on-failure --name demonzzbot iNaToKeczap/demonzzbot
 ## Autor
 
 - [@szkajpur](https://www.twitch.tv/szkajpur)
+- [@wojcieszekb]

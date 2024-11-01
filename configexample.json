@@ -1,15 +1,22 @@
 {
-    "username": "your_ttv_username",
-    "oauth": "",
-    "channels": [
-      "demonzz1"
-    ],
-    "heist": 123,
-    "prefix": "!",
-    "command": "testbota",
-    "bossBotName": "demonzzbot",
-    "enabledFishing": false,
-    "fishingBotName": "supibot",
-    "fishingBotChannel": "armpitslover420",
-    "onBanned": false
+  "username": "your_ttv_username",
+  "oauth": "",
+  "channels": [
+    "demonzz1"
+  ],
+  "heist": 123,
+  "prefix": "!",
+  "command": "testbota",
+  "bossBotName": "demonzzbot",
+  "fishing": {
+    "enabled": false,
+    "botName": "supibot",
+    "botChannel": "armpitslover420"
+  },
+  "potatoes": {
+    "enabled": false,
+    "botName": "potatbotat",
+    "botChannel": "demonzz1"
+  },
+  "onBanned": false
 }
