@@ -51,6 +51,7 @@ docker build . -t iNaToKeczap/demonzzbot
 docker run -d --restart on-failure --name demonzzbot iNaToKeczap/demonzzbot
 ```
 7. Sprawdzamy komendą `docker logs demonzzbot`, czy pojawiła się wiadomość `Pomyślnie połączono do czatu...`, bot działa prawidłowo ;)
+8. Możemy zatrzymać bota poprzez `docker stop demonzzbot` oraz usunąć kontener poprzez `docker rm demonzzbot`.
 
 ## Komendy
 
