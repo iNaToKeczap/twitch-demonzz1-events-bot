@@ -3,6 +3,9 @@ import chalk from 'chalk';
 import editJsonFile from "edit-json-file";
 import reload from 'self-reload-json';
 
+// delay for potatobot as it has problems with concurrent message handling
+const potatbotDelay = 10 * 1000;
+
 // load config.json file
 const __dirname = new URL('.', import.meta.url).pathname;
 var config = new reload(__dirname + '/config.json');
@@ -48,8 +51,8 @@ client.on("ready", async () => {
     // run potatoes command on join to channel
     if (config.potatoes.enabled) {
         say(config.potatoes.botChannel, `-potato remind potato steal`);
-        say(config.potatoes.botChannel, `-potato`);
-        say(config.potatoes.botChannel, `-steal`);
+        say(config.potatoes.botChannel, `-potato`, potatbotDelay);
+        say(config.potatoes.botChannel, `-steal`, potatbotDelay * 2);
     }
 });
 
@@ -87,7 +90,7 @@ client.on("PRIVMSG", async (msg) => {
                 say(msg.channelName, `-potato`);
             }
             if (msg.messageText.includes('steal')) {
-                say(msg.channelName, `-steal`);
+                say(msg.channelName, `-steal`, potatbotDelay);
             }
         }
         console.log(chalk.cyanBright(`#${msg.channelName} `) + chalk.yellowBright(`${msg.senderUsername} `) + chalk.greenBright(`-> ${msg.messageText}`));
@@ -171,13 +174,12 @@ function unbanOnChannel(channel) {
     bannedChannelsMap.set(channel, false);
 }
 
-function say(channel, message) {
-    // cannot write messages too quickly due to Twitch restrictions, adding some lag with timeout
-    const timeoutMiliSeconds = 1500
+// cannot write messages too quickly due to Twitch spam restrictions, minimum 1,5 sec delay
+function say(channel, message, delayMilisec = 1500) {
     if (!bannedOnChannel(channel)) {
         setTimeout(() => {
             client.say(channel, message);
-        }, timeoutMiliSeconds);
+        }, delayMilisec);
     } else {
         console.log(`Masz wciąż bana na kanale ${channel}!`)
     }
