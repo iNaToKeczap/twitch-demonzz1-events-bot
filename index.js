@@ -50,9 +50,7 @@ client.on("ready", async () => {
     }
     // run potatoes command on join to channel
     if (config.potatoes.enabled) {
-        say(config.potatoes.botChannel, `-potato remind potato steal`);
-        say(config.potatoes.botChannel, `-potato`, potatbotDelay);
-        say(config.potatoes.botChannel, `-steal`, potatbotDelay * 2);
+        say(config.potatoes.botChannel, `-potato remind potato steal cdr`);
     }
 });
 
@@ -91,6 +89,9 @@ client.on("PRIVMSG", async (msg) => {
             }
             if (msg.messageText.includes('steal')) {
                 say(msg.channelName, `-steal`, potatbotDelay);
+            }
+            if (msg.messageText.includes('cdr')) {
+                say(msg.channelName, `-cdr`, potatbotDelay * 2);
             }
         }
         console.log(chalk.cyanBright(`#${msg.channelName} `) + chalk.yellowBright(`${msg.senderUsername} `) + chalk.greenBright(`-> ${msg.messageText}`));
