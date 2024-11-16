@@ -51,6 +51,9 @@ client.on("ready", async () => {
     // run potatoes command on join to channel
     if (config.potatoes.enabled) {
         say(config.potatoes.botChannel, `-potato remind potato steal cdr`);
+        say(config.potatoes.botChannel, `-potato`, potatbotDelay);
+        say(config.potatoes.botChannel, `-steal`, potatbotDelay * 2);
+        say(config.potatoes.botChannel, `-cdr`, potatbotDelay * 3);
     }
 });
 
